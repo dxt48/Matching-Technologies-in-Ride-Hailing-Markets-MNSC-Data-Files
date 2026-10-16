@@ -1,0 +1,164 @@
+==============================================================================
+MANAGEMENT SCIENCE REPLICATION PACKAGE: MASTER EXECUTION
+Paper: Matching Technology, Fleet Size, and Passenger Wait in Ride-Hailing Markets
+Mode : Non-Destructive Audit (Uses Existing CSVs in Data/ & Preserves Figures/)
+==============================================================================
+
+[Step 1/3] Verifying existing pre-computed simulation CSV files in Data/...
+  ✓ Found Data/sim_scaling_SH.csv (0.01 MB)
+  ✓ Found Data/sim_waits_SH.csv (16.22 MB)
+  ✓ Found Data/sim_scaling_CD.csv (0.01 MB)
+  ✓ Found Data/sim_waits_CD.csv (15.90 MB)
+  ✓ Found Data/sim_scaling_CD_batched_w2.csv (0.01 MB)
+  ✓ Found Data/sim_waits_CD_batched_w2.csv (18.10 MB)
+Found existing Scaling Data. Loading...
+Scaling data loaded from Data/sim_scaling_SH.csv
+Found existing Distribution Data. Loading...
+Distribution data loaded from Data/sim_waits_SH.csv
+
+============================================================
+Data Ready for Analysis
+============================================================
+Found existing Scaling Data. Loading...
+Scaling data loaded from Data/sim_scaling_CD.csv
+Found existing Distribution Data. Loading...
+Distribution data loaded from Data/sim_waits_CD.csv
+
+============================================================
+Data Ready for Analysis
+============================================================
+Found existing Scaling Data. Loading...
+Scaling data loaded from Data/sim_scaling_CD_batched_w2.csv
+Found existing Distribution Data. Loading...
+Distribution data loaded from Data/sim_waits_CD_batched_w2.csv
+
+============================================================
+Data Ready for Analysis
+============================================================
+
+==============================================================================
+[Step 2/3] Running Code/Master_Analysis.py (Table 3 & Displaying Figures 3, 4, 5)...
+==============================================================================
+--- Running Structural Analysis for SH ---
+Displaying SH_Structural_Analysis figure (saving disabled to preserve existing files in Figures/)...
+--- Running Structural Analysis for CD ---
+Displaying CD_Structural_Analysis figure (saving disabled to preserve existing files in Figures/)...
+--- Running Structural Analysis for CD_BATCHED ---
+Displaying CD_BATCHED_Structural_Analysis figure (saving disabled to preserve existing files in Figures/)...
+
+============================== COPY FOR MAIN BODY (COMBINED TABLE) ==============================
+
+\begin{table}[ht]
+\centering
+\caption{Classification, Audit, and Structural Validation of Matching Regimes}
+\label{tab:scaling_audit_combined}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l c c c}
+\hline
+\textbf{Metric} & \textbf{Street-Hailing} & \textbf{Central Dispatch} & \textbf{Central Dispatch (0.6 min batch window)} \\
+\hline
+\multicolumn{4}{l}{\textit{Panel A: Regime Classification (AIC Tournament)}} \\
+Preferred Model & Linear ($n^{-1}$) & Square Root ($n^{-0.5}$) & Square Root ($n^{-0.5}$) \\
+Evidence Ratio (vs. Alternative) & $1 : 4.2e+48$ & $1 : 6.1e+41$ & $1 : 3.6e+60$ \\
+Goodness of Fit ($R^2$) & 0.9814 & 0.9796 & 0.9790 \\
+\hline
+\multicolumn{4}{l}{\textit{Panel B: Physics Audit (Free Exponent)}} \\
+Estimated Scaling Exponent ($\hat{\delta}$) & \textbf{1.014} & \textbf{0.514} & \textbf{0.481} \\
+95\% Confidence Interval & [0.995, 1.034] & [0.504, 0.524] & [0.472, 0.491] \\
+Theoretical Prediction & $\delta = 1.0$ & $\delta = 0.5$ & $\delta = 0.5$ \\
+\hline
+\multicolumn{4}{l}{\textit{Panel C: Capacity Estimation}} \\
+Est. Capacity Loss ($\hat{\beta}$) & 5207 & 5244 & 5151 \\
+Theoretical Prediction & $\approx 4836$ & $\approx 4719$ & $\approx 4719$ \\
+\hline
+\multicolumn{4}{l}{\textit{Panel D: Structural Recovery (Distribution)}} \\
+\% Immediate Pickups ($W=0$) & 43.4\% & 16.5\% & 8.5\% \\
+Weibull Shape Parameter ($k$) & \textbf{1.08} & \textbf{1.80} & \textbf{1.90} \\
+Target Family & Exponential ($k=1$) & Rayleigh ($k=2$) & Rayleigh ($k=2$) \\
+Body $R^2$ (Q-Q Linearity) & 0.9938 & 0.8388 & 0.8973 \\
+\hline
+\end{tabular}
+}
+\\ \footnotesize{\textit{Note:} In Panel B, $\beta$ is constrained to the best-fit value to strictly isolate the scaling exponent $\delta$. In Panel D, structural metrics ($k$, $R^2$) are calculated on positive wait times to validate the travel-time component independent of the zero-wait point mass. Distribution fit testing uses $n_s=7200$ for Street-Hailing and $n_d=6000$ for Central Dispatch regimes.}
+\end{table}
+
+
+============================== COPY FOR FIGURES (.TEX) ==============================
+
+\begin{figure}[ht]
+    \caption{Street-Hailing: Structural Validity}
+    \label{fig:sh_structure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figures/SH_Structural_Analysis.png}
+    
+    \vspace{0.5em}
+    \footnotesize{\textit{Note:} (A) The Physics Audit confirms the $1/n$ scaling law within the matching-dominated regime. (B) The Q-Q plot confirms the Exponential memoryless property for the vast majority of passengers (Body), with expected deviations only in the extreme tail due to finite grid effects. Distribution fit testing uses $n_s=7200$.}
+\end{figure}
+
+\begin{figure}[ht]
+    \caption{Central Dispatch: Structural Validity}
+    \label{fig:cd_structure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figures/CD_Structural_Analysis.png}
+    
+    \vspace{0.5em}
+    \footnotesize{\textit{Note:}  (A) The Physics Audit confirms the $1/\sqrt{n}$ scaling law predicted by spatial coverage theory. (B) The Q-Q plot confirms the Rayleigh-like structure of wait times when $W>0$, distinguishing the spatial travel component from immediate pickup events. Distribution fit testing uses $n_d=6000$.}
+\end{figure}
+
+\begin{figure}[ht]
+    \caption{Central Dispatch with Batching: Structural Validity}
+    \label{fig:cd_batched_structure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figures/CD_BATCHED_Structural_Analysis.png}
+    
+    \vspace{0.5em}
+    \footnotesize{\textit{Note:}  (A) The Physics Audit confirms the $1/\sqrt{n}$ scaling law persists under batch matching, albeit with improved efficiency (lower effective $\beta$). (B) The Q-Q plot confirms the Rayleigh-like structure of wait times remains the dominant spatial physics. Distribution fit testing uses $n_d=6000$. The batch window is 0.6 minutes.}
+\end{figure}
+
+============================================================
+
+==============================================================================
+[Step 3/3] Running Code/Lem_4_Prop_3.py (Table EC.1, Section 6.2 & Displaying Figure 6)...
+==============================================================================
+block length: 0.05 miles
+trip length: 40.0 blocks
+time per block: 0.3 minutes
+speed: 3 blocks per minute
+taxi wait in minutes: 1.5116443856582735 minutes
+uber wait in minutes: 1.6129888550300524 minutes
+
+==================================================
+FORMAL STATISTICAL TEST (PROPOSITION 3)
+==================================================
+SH Scaling Fit: alpha=2874.5, beta=5096.3
+CD Scaling Fit: alpha=13.2, beta=5219.1
+Calibrated Fleet Sizes for E[W]=1.5 min:
+  n_SH* = 7013
+  n_CD* = 5296
+
+Running Empirical Bootstrap on 10 Seeds: [0 1 2 3 4 5 6 7 8 9]
+------------------------------
+EMPIRICAL BOOTSTRAP RESULTS (N=10 runs):
+  n_SH* Mean: 7012 (SE: 4.5)
+  n_SH* 95% CI: [7002, 7023]
+  n_CD* Mean: 5296 (SE: 4.1)
+  n_CD* 95% CI: [5287, 5305]
+
+PROBABILITY RESULT (Structural):
+  P(W_SH <= 1.5) = 0.6321
+  P(W_CD <= 1.5) = 0.5441
+  Difference: +0.0881 (+16.2%)
+
+CONCLUSION: The empirical variance confirms the robustness of the calibration.
+Results are based on 10 independent simulation runs.
+Calibrating for Target Wait = 1.5 min
+[S] Critical n: 5373.7
+[D] Critical n: 5242.7
+Calibrated: n_s*=6796, n_d*=5367
+Intersection w' found at 1.910 min
+Displaying wait_time_comparison figure (saving disabled to preserve existing file in Figures/)...
+
+==============================================================================
+REPLICATION COMPLETE in 7.82 seconds.
+Note: Existing CSV files in Data/ and PNG figures in Figures/ were preserved without overwriting.
+==============================================================================
