@@ -173,8 +173,9 @@ pip install -r requirements.txt
 ### 2.3 Package Directory Structure and How to Run the Code
 
 ```text
-Empirical_Analysis_Code_MNSC/
+Matching_Empirical_Analysis_Code_MNSC/
 ├── README.md
+├── README.pdf
 ├── requirements.txt
 ├── run_all.py
 ├── replication_output.txt
@@ -201,7 +202,7 @@ Empirical_Analysis_Code_MNSC/
     └── wait_time_comparison.png
 ```
 
-All commands below should be executed from the root of this folder (`Empirical_Analysis_Code_MNSC/`):
+All commands below should be executed from the root of this folder (`Matching_Empirical_Analysis_Code_MNSC/`):
 
 #### Option A (Recommended for Audit): Reproduce All Statistics and Display Figures Without Overwriting Files (< 15 seconds)
 
@@ -233,7 +234,7 @@ If you wish to regenerate the raw CSV files from scratch by running all 10 shift
    FORCE_RERUN_SCALING = True  # Set to True to regenerate scaling data (10 shifts per fleet size)
    FORCE_RERUN_WAITS = True    # Set to True to regenerate individual wait distribution data (10 shifts)
    ```
-3. Run the script(s) from `Empirical_Analysis_Code_MNSC/`:
+3. Run the script(s) from `Matching_Empirical_Analysis_Code_MNSC/`:
    ```bash
    python Code/SH_10.py
    python Code/CD_10.py
